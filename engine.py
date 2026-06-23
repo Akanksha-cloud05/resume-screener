@@ -53,18 +53,11 @@ def extract_text_from_pdf(file_object):
 # ------------------------------------------------------------
 
 def calculate_match_score(job_description, resume_text):
-    """
-    Calculate similarity between JD and Resume.
-    Returns percentage (0.0 to 100.0).
-    
-    Tries BERT first (understands semantic meaning and synonyms).
-    Falls back to TF-IDF if BERT fails or isn't available.
-    """
     try:
         if not job_description or not resume_text:
             return 0.0
         
-        # Method 1: BERT (semantic similarity)
+        # Method 1: BERT
         if AI_READY and bert_model is not None:
             try:
                 embeddings = bert_model.encode([job_description, resume_text])
@@ -72,18 +65,29 @@ def calculate_match_score(job_description, resume_text):
                 result = round(float(score) * 100, 2)
                 return result if result is not None else 0.0
             except Exception:
-                pass  # Fall through to TF-IDF
+                pass
         
-        # Method 2: TF-IDF Fallback (keyword-based, always works)
+        # Method 2: TF-IDF
         vectorizer = TfidfVectorizer(stop_words='english', max_features=500)
         tfidf_matrix = vectorizer.fit_transform([job_description, resume_text])
         score = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
-        result = round(float(score) * 100, 2)
-        return result if result is not None else 0.0
+        
+        # FIX: Initialize final_score before the if block
+        final_score = score * 100  # Default: no penalty
+        
+        word_count = len(resume_text.split())
+        if word_count < 50:
+            penalty = 0.5
+            final_score = score * penalty * 100
+        elif word_count > 1000:
+            penalty = 0.9
+            final_score = score * penalty * 100
+        
+        return round(final_score, 2)
         
     except Exception:
         return 0.0
-
+    
 # Skill Extraction
 # Hardcoded because I didn't have time to train NER
 # TODO: This misses phrases like "Deep Learning" vs "DeepLearning"
