@@ -3,12 +3,9 @@ test_analytics.py - Day 8 Analytics Tests
 """
 
 import pytest
-import sys
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import analytics
-from engine import ResumeScorer
+from engine import ResumeProcessor
 
 
 @pytest.fixture

@@ -1,0 +1,24 @@
+{
+    "technical": {
+        "python": ["python", "pandas", "numpy", "django", "flask", "fastapi"],
+        "machine learning": ["machine learning", "ml", "scikit-learn", "sklearn", "neural networks"],
+        "sql": ["sql", "mysql", "postgresql", "sqlite", "mongodb"],
+        "aws": ["aws", "amazon web services", "ec2", "s3", "lambda"],
+        "azure": ["azure", "microsoft azure", "azure devops"],
+        "gcp": ["gcp", "google cloud", "google cloud platform"],
+        "docker": ["docker", "container", "kubernetes", "k8s"],
+        "devops": ["devops", "ci/cd", "jenkins", "gitlab ci", "github actions"],
+        "tensorflow": ["tensorflow", "tf", "keras"],
+        "pytorch": ["pytorch", "torch"],
+        "nlp": ["nlp", "natural language processing", "text processing"],
+        "computer vision": ["computer vision", "cv", "image processing"],
+        "data analysis": ["data analysis", "eda", "exploratory data analysis"],
+        "statistics": ["statistics", "stat", "hypothesis testing", "a/b testing"]
+    },
+    "soft": {
+        "communication": ["communication", "presentation", "public speaking"],
+        "teamwork": ["teamwork", "collaboration", "cross-functional"],
+        "problem solving": ["problem solving", "analytical thinking", "critical thinking"],
+        "leadership": ["leadership", "team lead", "management", "project management"]
+    }
+}

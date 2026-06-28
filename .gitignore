@@ -1,1 +1,25 @@
-screener_env/ 
+# Environments
+screener_env/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Streamlit
+.streamlit/
+
+# Build/Distribution
+*.egg-info/
+dist/
+build/
+
+# OS Files
+.DS_Store
+
+# Local Testing PDFs
+test_resume.pdf
+debug_text.py
+*.pdf
