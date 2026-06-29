@@ -1,0 +1,30 @@
+Job Title: Data Scientist
+Department: Analytics & Insights
+Location: Remote (India)
+Experience: 3-5 years
+
+About the Role:
+We are looking for a Data Scientist to join our analytics team. You will build machine learning models, analyze large datasets, and deliver actionable insights to business stakeholders.
+
+Key Responsibilities:
+- Design and implement machine learning models for business problems
+- Perform exploratory data analysis (EDA) on structured and unstructured data
+- Write clean Python code and optimize SQL queries
+- Deploy models to production using AWS cloud services
+- Create dashboards and visualizations to communicate findings
+- Collaborate with product and engineering teams
+
+Required Skills:
+- Strong proficiency in Python and SQL
+- Experience with machine learning frameworks (scikit-learn, TensorFlow, PyTorch)
+- Hands-on experience with cloud platforms (AWS, specifically EC2 and S3)
+- Familiarity with data visualization (Matplotlib, Seaborn, Tableau)
+- Knowledge of statistics and A/B testing
+
+Good to Have:
+- Experience with NLP or computer vision
+- Knowledge of Docker and Kubernetes
+- Understanding of big data technologies (Spark)
+
+Education:
+- Bachelor's or Master's degree in Computer Science, Statistics, or related field

@@ -22,6 +22,9 @@ app.py now just calls processor.process() and displays results.
 """
 
 import io
+import os
+import sys
+import logging
 from typing import Any, Dict, List, Tuple
 
 import pandas as pd
@@ -30,6 +33,30 @@ import plotly.express as px
 
 import engine
 import analytics
+from config import STREAMLIT_CONFIG
+
+# Configure logging once to prevent duplicate handler attachment during Streamlit hot-reloads
+if not logging.getLogger().handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.StreamHandler(sys.stdout),
+            logging.FileHandler("resume_screener.log", encoding="utf-8")
+        ]
+    )
+logger = logging.getLogger(__name__)
+
+# Log dashboard initialization
+logger.info("Initializing AI Resume Screener UI Server")
+logger.info(f"Subsystems Status -> BERT Loaded: {engine.BERT_LOADED} | Skills Registry: Available")
+
+# --- SYSTEM VALIDATION CHECKS ---
+if not os.path.exists("assets/skills.json"):
+    st.warning("⚠️ 'assets/skills.json' is missing — using minimal default skills.")
+
+if not getattr(engine, 'BERT_LOADED', False):
+    st.info("ℹ️ BERT models unavailable — engine is running in high-speed TF-IDF mode.")
 
 # Page Config
 st.set_page_config(
@@ -175,19 +202,44 @@ if run_btn:
         (f.name, f.getvalue()) for f in uploaded_files
     )
 
+    # Initialize logger and progress
+    logger.info(f"Starting pipeline for {len(uploaded_files)} resumes.")
     progress_bar = st.progress(0, text="Starting analysis...")
+    
     with st.spinner("Analyzing resumes..."):
         processor = get_processor()
         results: List[Dict[str, Any]] = []
+        
         for i, (name, file_bytes) in enumerate(file_tuples):
+            # Update UI Progress
             progress_bar.progress(
                 int((i + 1) / len(file_tuples) * 100),
                 text=f"Processing {name} ({i + 1}/{len(file_tuples)})",
             )
-            file_obj = io.BytesIO(file_bytes)
-            file_obj.name = name
-            result = processor.process(file_obj, jd_text.strip(), use_weighted)
-            results.append(result)
+            
+            # Log individual file processing
+            logger.info(f"Extracting and scoring: {name}")
+            
+            try:
+                file_obj = io.BytesIO(file_bytes)
+                file_obj.name = name
+                
+                # Execute core logic
+                result = processor.process(file_obj, jd_text.strip(), use_weighted)
+                results.append(result)
+                
+                logger.info(f"✅ Successfully processed {name}")
+                
+            except Exception as e:
+                # Log error and continue to the next file
+                logger.error(f"❌ Error processing {name}: {str(e)}")
+                results.append({
+                    "filename": name, 
+                    "score": 0, 
+                    "error": True, 
+                    "error_msg": str(e)
+                })
+                
     progress_bar.empty()
 
     valid_results = sorted(

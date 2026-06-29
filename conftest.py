@@ -8,6 +8,13 @@ without needing sys.path.insert() hacks in every test file.
 
 import sys
 import os
+import logging
 
-# Add the project root to Python path
+# Add project root to path so tests can import engine, config, and analytics
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# Configure pytest logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)

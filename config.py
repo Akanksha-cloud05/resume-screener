@@ -9,6 +9,14 @@ Should have done this on Day 1 honestly — makes tuning so much easier.
 import os
 import json
 
+# Streamlit UI Configuration
+STREAMLIT_CONFIG = {
+    "chart_height": 350,
+    "expander_border": True,
+    "skill_tag_limit": 8,
+    "progress_bar_update_interval": 1,
+}
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SKILLS_PATH = os.path.join(BASE_DIR, "assets", "skills.json")
 
@@ -83,15 +91,37 @@ def load_skills() -> dict:
             },
         }
 def validate_config():
-    """Validate config values are sensible on startup."""
+    """Validates configuration parameters on system initialization."""
     import logging
+    import os
     logger = logging.getLogger(__name__)
     
-    assert 0 <= LENGTH_PENALTY.get("short_penalty", 0) <= 1, "short_penalty must be between 0 and 1"
-    assert 0 <= LENGTH_PENALTY.get("long_penalty", 0) <= 1, "long_penalty must be between 0 and 1"
-    assert sum(SECTION_WEIGHTS.values()) == 1.0, "SECTION_WEIGHTS must sum to exactly 1.0"
-    
-    logger.info("✅ Configuration validation passed")
+    try:
+        # Validate core mathematical weights
+        weights_sum = sum(SECTION_WEIGHTS.values())
+        assert abs(weights_sum - 1.0) < 0.01, f"Section weights sum to {weights_sum}, must equal 1.0"
+        
+        # Validate scoring boundaries
+        assert THRESHOLDS["weak_match"] < THRESHOLDS["potential_match"] < THRESHOLDS["strong_match"], "BERT thresholds must be sequential"
+        assert THRESHOLDS_TFIDF["weak_match"] < THRESHOLDS_TFIDF["potential_match"] < THRESHOLDS_TFIDF["strong_match"], "TF-IDF thresholds must be sequential"
+        
+        # Validate metric limits
+        assert 0 <= LENGTH_PENALTY["short_penalty"] <= 1, "short_penalty multiplier must be between 0 and 1"
+        assert 0 <= LENGTH_PENALTY["long_penalty"] <= 1, "long_penalty multiplier must be between 0 and 1"
+        assert LENGTH_PENALTY["short_limit"] < LENGTH_PENALTY["long_limit"], "Short content word limit must be lower than long content limit"
+        
+        # Confirm underlying JSON dependency exists
+        assert os.path.exists("assets/skills.json"), "Required reference file 'assets/skills.json' not found"
+        
+        logger.info("System configuration verification complete. All parameters valid.")
+        return True
+        
+    except AssertionError as e:
+        logger.error(f"Configuration structural failure: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Unexpected configuration processing error: {e}")
+        raise
 
-# Execute validation when config is loaded
+# Auto-execute checks when module is compiled
 validate_config()
