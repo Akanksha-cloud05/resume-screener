@@ -34,9 +34,8 @@ pytest-cov==4.1.0              # Coverage reporting for tests
 #   - Comment out the lines below
 #   - Re-run: pip install -r requirements.txt
 # ============================================================================
-
- torch==2.0.1
- sentence-transformers==2.2.2
+ # torch==2.0.1  
+ # sentence-transformers==2.2.2
 
 # ============================================================================
 # Notes:

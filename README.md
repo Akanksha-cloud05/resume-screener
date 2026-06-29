@@ -98,7 +98,7 @@ text
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/resume-screener.git
+git clone https://github.com/Akanksha-cloud05/resume-screener.git
 cd resume-screener
 
 # Create virtual environment
