@@ -1,20 +1,20 @@
 # ============================================================================
 # AI Resume Screener - Requirements
-# Pinned versions ensure reproducibility across machines
+# Compatible with Python 3.11 (local) and Python 3.14 (Streamlit Cloud)
+# Using >= to let pip resolve the best version for the environment
 # ============================================================================
 
-# Core dependencies (required)
-streamlit==1.28.1              # Web UI framework for dashboards
-pandas==2.0.3                  # Data manipulation and CSV handling
-numpy==1.26.0                  # Numerical computing (used by sklearn, transformers)
-scikit-learn==1.3.0            # TF-IDF vectorizer, cosine similarity
-PyMuPDF==1.23.8                # PDF text extraction (install as: pip install PyMuPDF)
-plotly==5.15.0                 # Interactive charts and visualizations
+# Core dependencies
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.26.0          # 1.26+ supports Python 3.14 (distutils fix)
+scikit-learn>=1.5.0    # 1.5+ supports NumPy 2.0 (compatible with Python 3.14)
+PyMuPDF>=1.23.0
+plotly>=5.15.0
 
-# Testing (required for development)
-pytest==9.1.1                  # Unit testing framework (9.1.1 tested)
-pytest-cov==4.1.0              # Coverage reporting for tests
-
+# Testing (optional for deployment, required locally)
+pytest>=7.0.0
+pytest-cov>=4.0.0
 # ============================================================================
 # OPTIONAL: BERT for Better Accuracy
 # 
