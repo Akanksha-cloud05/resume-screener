@@ -6,7 +6,7 @@
 # Core dependencies (required)
 streamlit==1.28.1              # Web UI framework for dashboards
 pandas==2.0.3                  # Data manipulation and CSV handling
-numpy==1.24.3                  # Numerical computing (used by sklearn, transformers)
+numpy==1.26.0                  # Numerical computing (used by sklearn, transformers)
 scikit-learn==1.3.0            # TF-IDF vectorizer, cosine similarity
 PyMuPDF==1.23.8                # PDF text extraction (install as: pip install PyMuPDF)
 plotly==5.15.0                 # Interactive charts and visualizations
